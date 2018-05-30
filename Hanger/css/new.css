@@ -387,6 +387,7 @@ a {
     position: absolute;
     bottom: 30px;
     right: 30px;
+    width: 45px;
 }
 
 @media (max-width: 992px)

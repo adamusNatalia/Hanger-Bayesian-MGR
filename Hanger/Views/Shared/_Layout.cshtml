@@ -82,21 +82,33 @@
                         <ul class="nav navbar-nav navbar-right profil">
                             @if (Session["LogedUserID"] != null)
                             {
+                                <li class="icon like" style="margin-top:-7px;">
+                                    <a href="@Url.Action("Favorites", "UserProfil",new { id = (Session["LogedUserID"] as Hanger.Models.User).Id })">
+                                        <img alt="Brand" src="~/Pictures/Icons/like.png" style="width:40px">
+                                    </a>
+                                </li>
+                            }
+                            @if (Session["LogedUserID"] != null)
+                            {
                                 <li class="icon" style="margin-top:-7px;">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                         <img alt="Brand" src="~/Pictures/Icons/user3.png" style="width:40px">
-                                        <b class="caret"></b>
-                                     </a>
+
+                                    </a>
                                     <ul class="dropdown-menu multi-level">
-                                        <li><a href="@Url.Action("UserProfil", "UserProfil",new { id = (Session["LogedUserID"] as Hanger.Models.User).Id })">Twoje przedmioty</a></li>                                     
+                                        <li><a href="@Url.Action("UserProfil", "UserProfil",new { id = (Session["LogedUserID"] as Hanger.Models.User).Id })">Twoje przedmioty</a></li>
                                         <li><a href="@Url.Action("Favorites", "UserProfil",new { id = (Session["LogedUserID"] as Hanger.Models.User).Id })">Ulubione przedmioty</a></li>
                                     </ul>
-                               </li>
+                                </li>
                             }
+
                             @if (Session["LogedUserID"] != null)
                             {
                                 <li class="full" id="login">
                                     @Html.ActionLink("Wyloguj się", "LogOut", "Login")
+                                </li>
+                                <li class="frame" id="sell">
+                                    @Html.ActionLink("Dodaj ogłoszenie", "New", "Ad")
                                 </li>
                             }
                             else
@@ -105,26 +117,28 @@
                                     @Html.ActionLink("Zaloguj się", "Login", "Login")
                                 </li>
 
-                            }
-                            @*@if (Session["LogedUserID"] != null)
-                            {
+
+                                @*@if (Session["LogedUserID"] != null)
+                {
+                    <li class="frame" id="sell">
+                        @Html.ActionLink("Sprzedaj", "New", "Ad")
+                    </li>
+                }
+                else
+                {
+                    <li class="frame" id="login">
+                        @Html.ActionLink("Zrejestruj się", "Register", "Register")
+                    </li>
+
+                }*@
+
                                 <li class="frame" id="sell">
-                                    @Html.ActionLink("Sprzedaj", "New", "Ad")
+                                    @Html.ActionLink("Zarejestruj się", "Register", "Register")
                                 </li>
                             }
-                            else
-                            {
-                                <li class="frame" id="login">
-                                    @Html.ActionLink("Zrejestruj się", "Register", "Register")
-                                </li>
 
-                            }*@
-
-                            <li class="frame" id="sell">
-                                @Html.ActionLink("Zarejestruj się", "Register", "Register")
-                            </li>
-                            
                         </ul>
+
                     </div>
                 </div>
             </div>

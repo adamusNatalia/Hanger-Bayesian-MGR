@@ -239,3 +239,9 @@ ul, ol {
     content:url('../../Pictures/Icons/user4.png');
  }
 
+.nav.navbar-nav.navbar-right.profil > li.icon.like > a:hover>img,
+.nav.navbar-nav.navbar-right.profil > li.icon.like > a:focus>img
+ {
+    width:40px;
+    content:url('../../Pictures/Icons/like_full.png');
+ }

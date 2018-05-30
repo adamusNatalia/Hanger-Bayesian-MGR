@@ -361,6 +361,8 @@
     <Content Include="Pictures\Icons\hanger.png" />
     <Content Include="Pictures\Icons\hanger3.png" />
     <Content Include="Pictures\Icons\heart.png" />
+    <Content Include="Pictures\Icons\like.png" />
+    <Content Include="Pictures\Icons\like_full.png" />
     <Content Include="Pictures\Icons\loupe.png" />
     <Content Include="Pictures\Icons\pen.png" />
     <Content Include="Pictures\Icons\search.png" />

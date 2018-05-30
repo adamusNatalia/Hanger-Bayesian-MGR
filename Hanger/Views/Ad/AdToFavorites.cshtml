@@ -35,7 +35,7 @@
 {
     <script>
     
-        document.getElementById("favouriteMainPhoto").src = "/Pictures/Icons/heart.png";
+        document.getElementById("favouriteMainPhoto").src = "/Pictures/Icons/like.png";
     
     
      
@@ -57,9 +57,7 @@ else
 {
     <script>
 
-        document.getElementById("favouriteMainPhoto").src = "/Pictures/Icons/favorite-heart.png";
-
-     
+        document.getElementById("favouriteMainPhoto").src = "/Pictures/Icons/like_full.png";
 
     </script>
     using (Ajax.BeginForm("RemoveFromFavourites", "Ad", new { adId = Model.ElementAt(j).Id }, new AjaxOptions { HttpMethod = "Post", UpdateTargetId = "favorites" }, new { style = "border:0px; padding:0px; margin-top: 10px;" }))
