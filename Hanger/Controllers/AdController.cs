@@ -834,11 +834,16 @@ namespace Hanger.Controllers
        static List<int> subcategoryInAllAd = new List<int>();
        static List<int> colorInAllAd = new List<int>();
 
-        public List<int> ContentFiltering(int Id) {
-
+        public List<int> ContentFiltering(int Id)
+        {
+            int user = 0;
+            if (Session["LogedUserID"] != null)
+            {
+                user = (Session["LogedUserID"] as User).Id;
+            }
             // sprawdzam czy ktos dodal ogloszenie do ulubionych
             var fav = from s in db.Favourite
-                      where (s.AdId == Id)
+                      where (s.AdId == Id && s.UserId != user)
                       select s;
             // jesli nie ma ogloszenia w dbo.Favourites, to losuje 3 ogloszenia
             if (fav.Count() == 0)
@@ -846,6 +851,12 @@ namespace Hanger.Controllers
                 Random rnd = new Random();
 
                 List<int> randomList = new List<int>();
+                if (Session["LogedUserID"] != null)
+                {
+                    randomList = (from s in db.Favourite
+                                  where (s.UserId == user)
+                                  select s.AdId).ToList();
+                }
                 var ad = (from s in db.Ad
                           select s.Id).ToList();
 
@@ -860,8 +871,15 @@ namespace Hanger.Controllers
                     }
                     randomList.Add(ad[a]);
                 }
+                List<int> reccom = new List<int>();
+                int size = randomList.Count() - 1;
+                for (int i = 0; i < 3; i++)
+                {
 
-                return randomList;
+                    reccom.Add(randomList.ElementAt(size));
+                    size--;
+                }
+                return reccom;
                 //return new List<int>(new int[] { 112, 113, 114 });
             }
             init(Id);
@@ -925,14 +943,14 @@ namespace Hanger.Controllers
                           where (s.UserId == userId)
                           select s;
                 
-
+                /*
                 // jesli liczba ogloszen w ulubionych jest mniejsza niz 3 to wykonuje poprzedni algorytm
                 if (fav.Count() < 3)
                 {
                     return ContentFiltering(Id);
                     //return new List<int>(new int[] { 112, 113, 114 });
                 }
-
+                */
                 initBayesian(userId);
 
                 IList<Recommendation> rec = bayesianRecommentadion(userId);
@@ -956,34 +974,45 @@ namespace Hanger.Controllers
      
 
         }
-        public void init(int id) {
+        public void init(int id)
+        {
 
             productRecommendations = new Dictionary<string, List<Recommendation>>();
             List<Recommendation> list = new List<Recommendation>();
+            var fav = (from s in db.Favourite
+                       select s.AdId).Distinct().ToList();
 
             // wyrozniam tylko ogloszenia pojawiajace sie w ulubionych
-            var fav = ( from s in db.Favourite                     
-                      select s.AdId).Distinct().ToList();
+            if (Session["LogedUserID"] != null)
+            {
+                int user = (Session["LogedUserID"] as User).Id;
+                var withoutUser = (from s in db.Favourite
+                                   where s.UserId == user && s.AdId != id
+                                   select s.AdId).Distinct().ToList();
+
+                fav = fav.Except(withoutUser).ToList();
+
+            }
 
             // dla kazdego ogloszenia w ulubionych zbieram dane o uzytkownikach, ktorzy dodali ogloszenie do ulubionych
-           foreach( int item in fav)
+            foreach (int item in fav)
             {
                 var adInFav = (from s in db.Favourite
-                               where s.AdId==item
-                           select s.UserId).ToList();
+                               where s.AdId == item
+                               select s.UserId).ToList();
                 //lista osób, które dodaly ogloszenie do ulubionych
 
-                foreach(int favorite in adInFav)
+                foreach (int favorite in adInFav)
                 {
                     list.Add(new Recommendation() { Name = favorite.ToString(), Rating = 1 });
                 }
                 // (Id ogłoszenia, lista userow)
                 productRecommendations.Add(item.ToString(), list);
+                list = new List<Recommendation>();
             }
 
-           
-        }
 
+        }
         public void initBayesian(int user)
         {
             //productRecommendations = new Dictionary<string, List<int>>();
@@ -1133,47 +1162,10 @@ namespace Hanger.Controllers
 
             double r2 = suma2 / (double)Math.Sqrt(kw1 * kw2);
 
-            double product1_review_sum = 0.00f;
-            foreach (Recommendation item in shared_items)
-            {
-                product1_review_sum += productRecommendations[product1].Where(x => x.Name == item.Name).FirstOrDefault().Rating;
-            }
 
-            double product2_review_sum = 0.00f;
-            foreach (Recommendation item in shared_items)
-            {
-                product2_review_sum += productRecommendations[product2].Where(x => x.Name == item.Name).FirstOrDefault().Rating;
-            }
-
-            double srednia1 = product1_review_sum / shared_items.Count;
-            double srednia2 = product2_review_sum / shared_items.Count;
-
-            // sum up the squares
-            double product1_rating = 0f;
-            double product2_rating = 0f;
-            double product1_srednia = 0f;
-            double product2_srednia = 0f;
-            double suma = 0f;
-
-            foreach (Recommendation item in shared_items)
-            {
-                product1_rating += Math.Pow(productRecommendations[product1].Where(x => x.Name == item.Name).FirstOrDefault().Rating, 2);
-                product1_srednia += Math.Pow(productRecommendations[product1].Where(x => x.Name == item.Name).FirstOrDefault().Rating - srednia1, 2);
-                product2_rating += Math.Pow(productRecommendations[product2].Where(x => x.Name == item.Name).FirstOrDefault().Rating, 2);
-                product2_srednia += Math.Pow(productRecommendations[product2].Where(x => x.Name == item.Name).FirstOrDefault().Rating - srednia2, 2);
-                suma += (productRecommendations[product1].Where(x => x.Name == item.Name).FirstOrDefault().Rating - srednia1) * (productRecommendations[product2].Where(x => x.Name == item.Name).FirstOrDefault().Rating - srednia2);
-            }
-
-            for (int i = 0; i < wszyscy; i++)
-            {
-
-            }
-
-            
-            double r = suma / (double)Math.Sqrt(product1_srednia * product2_srednia);
             //return num / density;
             //double inny = num / density;
-            return r;
+            return r2;
         }
 
         public class Recommendation

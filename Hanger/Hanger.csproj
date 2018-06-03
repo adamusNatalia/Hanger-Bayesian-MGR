@@ -404,10 +404,12 @@
     <None Include="Properties\PublishProfiles\hanger - FTP %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\hanger - FTP %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\hanger - FTP %284%29.pubxml" />
+    <None Include="Properties\PublishProfiles\hanger - FTP %285%29.pubxml" />
     <None Include="Properties\PublishProfiles\hanger - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\hanger - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\hanger - Web Deploy %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\hanger - Web Deploy %284%29.pubxml" />
+    <None Include="Properties\PublishProfiles\hanger - Web Deploy %285%29.pubxml" />
     <None Include="Properties\PublishProfiles\hanger - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\hanger-mgr3 - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\hanger-mgr3 - Web Deploy.pubxml" />

@@ -26,14 +26,14 @@ namespace Hanger.Models
 
         public int Id { get; set; }
         public int UserId { get; set; }
-        [Required(ErrorMessage = "Prosze wprowadŸ cenê", AllowEmptyStrings = false)]
+        [Required(ErrorMessage = "Prosze wprowadź cenę", AllowEmptyStrings = false)]
         [RegularExpression(@"^[-+]?[0-9]*\,?[0-9]+([eE][-+]?[0-9]+)?$", ErrorMessage = "Prosze wprowadY poprawn1 wartooa")]
         [DisplayName("Cena")]
         public float Price { get; set; }
-        [Required(ErrorMessage = "Proszê wprowadŸ tytu³", AllowEmptyStrings = false)]
-        [DisplayName("Tytu³ og³oszenia")]
+        [Required(ErrorMessage = "Proszę wprowadż tytuł", AllowEmptyStrings = false)]
+        [DisplayName("Tytuł ogłoszenia")]
         public string Title { get; set; }
-        [DisplayName("Opis og³oszenia")]
+        [DisplayName("Opis ogłoszenia")]
         public string Description { get; set; }
         public Nullable<System.DateTime> Date_start { get; set; }
         [Required(ErrorMessage = "Prosze wybierz rozmiar", AllowEmptyStrings = false)]
@@ -42,13 +42,13 @@ namespace Hanger.Models
         [Required(ErrorMessage = "Prosze wybierz kolor", AllowEmptyStrings = false)]
         [DisplayName("Kolor")]
         public int ColorId { get; set; }
-        [Required(ErrorMessage = "Prosze wybierz kategoriê", AllowEmptyStrings = false)]
+        [Required(ErrorMessage = "Prosze wybierz kategorię", AllowEmptyStrings = false)]
         [DisplayName("Kategoria")]
         public int SubcategoryId { get; set; }
         [Required(ErrorMessage = "Prosze wybierz w jakim stanie jest produkt", AllowEmptyStrings = false)]
         [DisplayName("Stan")]
         public int ConditionId { get; set; }
-        [DisplayName("Mo¿liwoœæ wymiany")]
+        [DisplayName("Moźliwość wymiany")]
         public Nullable<bool> Swap { get; set; }
         [DisplayName("Marka")]
         public Nullable<int> BrandId { get; set; }
